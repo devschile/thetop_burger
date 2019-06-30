@@ -2,9 +2,23 @@ import React, { Component } from 'react'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import { geolocated } from 'react-geolocated'
 
+import { burgers } from './burgers.js'
 import './App.css'
 
 class App extends Component {
+  markers () {
+    return burgers.map(burger => (
+      burger.positions.map(position => (
+        <Marker position={[position.lat, position.lng]} key={`${position.lat}-${position.lng}`}>
+          <Popup>
+            <b>{burger.name}</b><br />
+            {position.address}.
+          </Popup>
+        </Marker>
+      ))
+    ))
+  }
+
   render () {
     const center = [-33.4372517, -70.6330319]
     const position = this.props.coords && [this.props.coords.latitude, this.props.coords.longitude]
@@ -18,6 +32,7 @@ class App extends Component {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
             />
+            {this.markers()}
             {position && (
               <Marker position={position}>
                 <Popup>Yo</Popup>

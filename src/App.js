@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import getDistance from 'geolib/es/getDistance'
 import { geolocated } from 'react-geolocated'
 
 import { burgers } from './burgers.js'
@@ -7,15 +8,36 @@ import './App.css'
 
 class App extends Component {
   markers () {
+    const humanizeDistance = (distance) => {
+      if (distance >= 1000) return `${(distance / 1000).toFixed(2)} kms`
+      return `{distance} mts`
+    }
+
+    const distance = (burgerLatitude, burgerLongitude) => {
+      if (!this.props.coords) return
+
+      const { latitude: userLatitude, longitude: userLongitude } = this.props.coords
+
+      return getDistance(
+        { latitude: userLatitude, longitude: userLongitude },
+        { latitude: burgerLatitude, longitude: burgerLongitude }
+      )
+    }
+
     return burgers.map(burger => (
-      burger.positions.map(position => (
-        <Marker position={[position.lat, position.lng]} key={`${position.lat}-${position.lng}`}>
-          <Popup>
-            <b>{burger.name}</b><br />
-            {position.address}.
-          </Popup>
-        </Marker>
-      ))
+      burger.positions.map(position => {
+        const d = distance(position.lat, position.lng)
+
+        return (
+          <Marker position={[position.lat, position.lng]} key={`${position.lat}-${position.lng}`}>
+            <Popup>
+              <b>{burger.name}</b> | {position.address}<br />
+              {d && (<span>Estás a {humanizeDistance(d)}  de acá.</span>)}<br />
+              <a href={burger.webpage} target='_blank'>Ver Página</a>
+            </Popup>
+          </Marker>
+        )
+      })
     ))
   }
 

@@ -4,18 +4,19 @@ import getDistance from 'geolib/es/getDistance'
 import { geolocated } from 'react-geolocated'
 
 import { burgers } from './burgers.js'
+import { humanizeDistance } from './utils'
 import './App.css'
 
 class App extends Component {
-  markers () {
-    const humanizeDistance = (distance) => {
-      if (distance >= 1000) return `${(distance / 1000).toFixed(2)} kms`
-      return `{distance} mts`
-    }
+  constructor(props) {
+    super(props)
+    this.burgersWithDistance = this.burgersWithDistance.bind(this)
+    this.markers = this.markers.bind(this)
+  }
 
+  burgersWithDistance () {
     const distance = (burgerLatitude, burgerLongitude) => {
-      if (!this.props.coords) return
-
+      if (!this.props.coords || !burgerLatitude || !burgerLongitude) return
       const { latitude: userLatitude, longitude: userLongitude } = this.props.coords
 
       return getDistance(
@@ -26,19 +27,21 @@ class App extends Component {
 
     return burgers.map(burger => (
       burger.positions.map(position => {
-        const d = distance(position.lat, position.lng)
+        return { ...burger, currentPosition: { ...position, distance: distance(position.lat, position.lng) } }
+      }))).flat()
+  }
 
-        return (
-          <Marker position={[position.lat, position.lng]} key={`${position.lat}-${position.lng}`}>
-            <Popup>
-              <b>{burger.name}</b> | {position.address}<br />
-              {d && (<span>Estás a {humanizeDistance(d)}  de acá.</span>)}<br />
-              <a href={burger.webpage} target='_blank'>Ver Página</a>
-            </Popup>
-          </Marker>
-        )
-      })
-    ))
+  markers () {
+    return this.burgersWithDistance()
+      .map(burger => (
+        <Marker position={[burger.currentPosition.lat, burger.currentPosition.lng]} key={`${burger.name}-${burger.currentPosition.lat}-${burger.currentPosition.lng}`}>
+          <Popup>
+            <b>{burger.name}</b> | {burger.currentPosition.address}<br />
+            {burger.currentPosition.distance && (<span>Estás a {humanizeDistance(burger.currentPosition.distance)}  de acá.</span>)}<br />
+            <a href={burger.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
+          </Popup>
+        </Marker>
+      ))
   }
 
   render () {

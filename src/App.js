@@ -7,7 +7,7 @@ import { restaurants } from './restaurants.js'
 import { humanizeDistance } from './utils'
 import './App.css'
 
-function ListElement ({ restaurant }) {
+function Restaurant ({ restaurant }) {
   return (
     <div className='list-element' key={`list-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
       <div className='list-element__title'>{restaurant.name}</div>
@@ -64,7 +64,7 @@ class App extends Component {
     return this.restaurantsWithDistance()
       .sort((a, b) => a.currentPosition.distance - b.currentPosition.distance)
       .map(restaurant => (
-        <ListElement restaurant={restaurant}/>
+        <Restaurant restaurant={restaurant}/>
       ))
   }
 

@@ -7,6 +7,17 @@ import { restaurants } from './restaurants.js'
 import { humanizeDistance } from './utils'
 import './App.css'
 
+function ListElement ({ restaurant }) {
+  return (
+    <div className='list-element' key={`list-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
+      <div className='list-element__title'>{restaurant.name}</div>
+      {restaurant.currentPosition.address}<br />
+      {restaurant.currentPosition.distance && (<span>Estás a {humanizeDistance(restaurant.currentPosition.distance)}  de acá.</span>)}<br />
+      <a href={restaurant.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
+    </div>
+  )
+}
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -53,12 +64,7 @@ class App extends Component {
     return this.restaurantsWithDistance()
       .sort((a, b) => a.currentPosition.distance - b.currentPosition.distance)
       .map(restaurant => (
-        <div className='list-element' key={`list-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
-          <div className='list-element__title'>{restaurant.name}</div>
-          {restaurant.currentPosition.address}<br />
-          {restaurant.currentPosition.distance && (<span>Estás a {humanizeDistance(restaurant.currentPosition.distance)}  de acá.</span>)}<br />
-          <a href={restaurant.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
-        </div>
+        <ListElement restaurant={restaurant}/>
       ))
   }
 

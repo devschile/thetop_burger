@@ -32,7 +32,7 @@
   height: 100%;
 }
 
-.list__close {
+.list__close, .element__close {
   text-align: right;
   padding: 10px;
 }
@@ -46,4 +46,13 @@
 .list-element__title {
   font-weight: bold;
 
+}
+
+.element-container {
+  position: absolute;
+  background: white;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
 }

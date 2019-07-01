@@ -23,7 +23,8 @@ class App extends Component {
     super(props)
 
     this.state = {
-      showList: false
+      showList: false,
+      restaurant: {}
     }
 
     this.restaurantsWithDistance = this.restaurantsWithDistance.bind(this)
@@ -50,13 +51,7 @@ class App extends Component {
   markers () {
     return this.restaurantsWithDistance()
       .map(restaurant => (
-        <Marker position={[restaurant.currentPosition.lat, restaurant.currentPosition.lng]} key={`marker-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
-          <Popup>
-            <b>{restaurant.name}</b> | {restaurant.currentPosition.address}<br />
-            {restaurant.currentPosition.distance && (<span>Estás a {humanizeDistance(restaurant.currentPosition.distance)}  de acá.</span>)}<br />
-            <a href={restaurant.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
-          </Popup>
-        </Marker>
+        <Marker position={[restaurant.currentPosition.lat, restaurant.currentPosition.lng]} key={`marker-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`} onClick={() => this.setState({restaurant: restaurant})} />
       ))
   }
 
@@ -69,7 +64,7 @@ class App extends Component {
   }
 
   render () {
-    const { showList } = this.state
+    const { showList, restaurant } = this.state
     const center = [-33.4372517, -70.6330319]
     const position = this.props.coords && [this.props.coords.latitude, this.props.coords.longitude]
 
@@ -91,10 +86,16 @@ class App extends Component {
             )}
           </Map>
         </div>
+        {!showList && restaurant.name && (
+          <div className='element-container'>
+            <div className='element__close' onClick={() => this.setState({restaurant: {}})}>Cerrar</div>
+            <Restaurant restaurant={restaurant}/>
+          </div>
+        )}
        {showList && (
          <div className='list-container'>
            <div className='list'>
-             <div className='list__close' onClick={() => this.setState({showList: !showList})}>Cerrar</div>
+             <div className='list__close' onClick={() => this.setState({showList: !showList, restaurant: {}})}>Cerrar</div>
              {this.list()}
            </div>
          </div>

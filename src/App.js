@@ -10,6 +10,11 @@ import './App.css'
 class App extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      showList: false
+    }
+
     this.restaurantsWithDistance = this.restaurantsWithDistance.bind(this)
     this.markers = this.markers.bind(this)
   }
@@ -34,7 +39,7 @@ class App extends Component {
   markers () {
     return this.restaurantsWithDistance()
       .map(restaurant => (
-        <Marker position={[restaurant.currentPosition.lat, restaurant.currentPosition.lng]} key={`${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
+        <Marker position={[restaurant.currentPosition.lat, restaurant.currentPosition.lng]} key={`marker-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
           <Popup>
             <b>{restaurant.name}</b> | {restaurant.currentPosition.address}<br />
             {restaurant.currentPosition.distance && (<span>Estás a {humanizeDistance(restaurant.currentPosition.distance)}  de acá.</span>)}<br />
@@ -44,13 +49,28 @@ class App extends Component {
       ))
   }
 
+  list () {
+    return this.restaurantsWithDistance()
+      .sort((a, b) => a.currentPosition.distance - b.currentPosition.distance)
+      .map(restaurant => (
+        <div className='list-element' key={`list-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
+          <div className='list-element__title'>{restaurant.name}</div>
+          {restaurant.currentPosition.address}<br />
+          {restaurant.currentPosition.distance && (<span>Estás a {humanizeDistance(restaurant.currentPosition.distance)}  de acá.</span>)}<br />
+          <a href={restaurant.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
+        </div>
+      ))
+  }
+
   render () {
+    const { showList } = this.state
     const center = [-33.4372517, -70.6330319]
     const position = this.props.coords && [this.props.coords.latitude, this.props.coords.longitude]
 
     return (
       <div className="app">
         <h1 className='app__title'>TheTop - BurgerMap!</h1>
+        <div className='' onClick={() => this.setState({showList: !showList})}>Mostrar Por Lista</div>
         <div className='map-container'>
           <Map className='map-container__map' center={position || center} zoom={12}>
             <TileLayer
@@ -65,6 +85,14 @@ class App extends Component {
             )}
           </Map>
         </div>
+       {showList && (
+         <div className='list-container'>
+           <div className='list'>
+             <div className='list__close' onClick={() => this.setState({showList: !showList})}>Cerrar</div>
+             {this.list()}
+           </div>
+         </div>
+        )}
       </div>
     )
   }

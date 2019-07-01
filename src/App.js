@@ -1,22 +1,29 @@
 import React, { Component } from 'react'
+
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import getDistance from 'geolib/es/getDistance'
 import { geolocated } from 'react-geolocated'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faMapMarkerAlt, faGlobeAmericas, faDirections, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import { restaurants } from './restaurants.js'
 import { humanizeDistance } from './utils'
 import './App.css'
 
-function Restaurant ({ restaurant }) {
+function Restaurant ({ restaurant, coords }) {
+  const origin = coords ? `${coords.latitude},${coords.longitude}` : ''
+  const directions = `https://www.google.cl/maps/dir/${origin}/${restaurant.currentPosition.address}`
+
   return (
     <div className='list-element' key={`list-${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
       <div className='list-element__title'>{restaurant.name}</div>
-      {restaurant.currentPosition.address}<br />
-      {restaurant.currentPosition.distance && (<span>Estás a {humanizeDistance(restaurant.currentPosition.distance)}  de acá.</span>)}<br />
-      <a href={restaurant.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
+      {restaurant.currentPosition.address}
+      {restaurant.currentPosition.distance && (<span className='restaurant__distance'> | <FontAwesomeIcon icon={faMapMarkerAlt} /> {humanizeDistance(restaurant.currentPosition.distance)}</span>)}
+      <div className='list-element__icons'>
+        <a href={directions} target='_blank' rel="noopener noreferrer"><FontAwesomeIcon className='restaurant-icon' icon={faDirections} /></a>
+        <a href={restaurant.webpage} target='_blank' rel="noopener noreferrer"><FontAwesomeIcon className='restaurant-icon' icon={faGlobeAmericas} /></a>
+      </div>
     </div>
   )
 }

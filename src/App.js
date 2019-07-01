@@ -80,8 +80,13 @@ class App extends Component {
 
     return (
       <div className="app">
-        <h1 className='app__title'>TheTop - BurgerMap!</h1>
-        <div className='' onClick={() => this.setState({showList: !showList})}>Mostrar Por Lista</div>
+        <div className='navbar'>
+          <h1 className='navbar__title'>TheTop - BurgerMap!</h1>
+          <div className='navbar__options'>
+            <div className={`navbar__option ${!showList ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showList: false})}>Mostrar Mapa</div>
+            <div className={`navbar__option ${showList ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showList: true})}>Mostrar Lista</div>
+          </div>
+        </div>
         <div className='map-container'>
           <Map className='map-container__map' center={position || center} zoom={12}>
             <TileLayer
@@ -107,9 +112,6 @@ class App extends Component {
        {showList && (
          <div className='list-container'>
            <div className='list'>
-             <div className='element__close'>
-               <FontAwesomeIcon icon={faTimes} onClick={() => this.setState({showList: !showList, restaurant: {}})} />
-             </div>
              {this.list()}
            </div>
          </div>

@@ -1,4 +1,4 @@
-export const burgers = [{
+export const restaurants = [{
   name: 'Albedrío',
   positions: [{
     address: 'Pasaje Huerfanos 640 edificio B local 5, Santiago',

@@ -3,42 +3,42 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import getDistance from 'geolib/es/getDistance'
 import { geolocated } from 'react-geolocated'
 
-import { burgers } from './burgers.js'
+import { restaurants } from './restaurants.js'
 import { humanizeDistance } from './utils'
 import './App.css'
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.burgersWithDistance = this.burgersWithDistance.bind(this)
+    this.restaurantsWithDistance = this.restaurantsWithDistance.bind(this)
     this.markers = this.markers.bind(this)
   }
 
-  burgersWithDistance () {
-    const distance = (burgerLatitude, burgerLongitude) => {
-      if (!this.props.coords || !burgerLatitude || !burgerLongitude) return
+  restaurantsWithDistance () {
+    const distance = (restaurantLatitude, restaurantLongitude) => {
+      if (!this.props.coords || !restaurantLatitude || !restaurantLongitude) return
       const { latitude: userLatitude, longitude: userLongitude } = this.props.coords
 
       return getDistance(
         { latitude: userLatitude, longitude: userLongitude },
-        { latitude: burgerLatitude, longitude: burgerLongitude }
+        { latitude: restaurantLatitude, longitude: restaurantLongitude }
       )
     }
 
-    return burgers.map(burger => (
-      burger.positions.map(position => {
-        return { ...burger, currentPosition: { ...position, distance: distance(position.lat, position.lng) } }
+    return restaurants.map(restaurant => (
+      restaurant.positions.map(position => {
+        return { ...restaurant, currentPosition: { ...position, distance: distance(position.lat, position.lng) } }
       }))).flat()
   }
 
   markers () {
-    return this.burgersWithDistance()
-      .map(burger => (
-        <Marker position={[burger.currentPosition.lat, burger.currentPosition.lng]} key={`${burger.name}-${burger.currentPosition.lat}-${burger.currentPosition.lng}`}>
+    return this.restaurantsWithDistance()
+      .map(restaurant => (
+        <Marker position={[restaurant.currentPosition.lat, restaurant.currentPosition.lng]} key={`${restaurant.name}-${restaurant.currentPosition.lat}-${restaurant.currentPosition.lng}`}>
           <Popup>
-            <b>{burger.name}</b> | {burger.currentPosition.address}<br />
-            {burger.currentPosition.distance && (<span>Estás a {humanizeDistance(burger.currentPosition.distance)}  de acá.</span>)}<br />
-            <a href={burger.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
+            <b>{restaurant.name}</b> | {restaurant.currentPosition.address}<br />
+            {restaurant.currentPosition.distance && (<span>Estás a {humanizeDistance(restaurant.currentPosition.distance)}  de acá.</span>)}<br />
+            <a href={restaurant.webpage} target='_blank' rel="noopener noreferrer">Ver Página</a>
           </Popup>
         </Marker>
       ))

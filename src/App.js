@@ -3,6 +3,9 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import getDistance from 'geolib/es/getDistance'
 import { geolocated } from 'react-geolocated'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
 import { restaurants } from './restaurants.js'
 import { humanizeDistance } from './utils'
 import './App.css'
@@ -59,7 +62,7 @@ class App extends Component {
     return this.restaurantsWithDistance()
       .sort((a, b) => a.currentPosition.distance - b.currentPosition.distance)
       .map(restaurant => (
-        <Restaurant restaurant={restaurant}/>
+        <Restaurant restaurant={restaurant} />
       ))
   }
 
@@ -88,14 +91,18 @@ class App extends Component {
         </div>
         {!showList && restaurant.name && (
           <div className='element-container'>
-            <div className='element__close' onClick={() => this.setState({restaurant: {}})}>Cerrar</div>
-            <Restaurant restaurant={restaurant}/>
+            <div className='element__close'>
+              <FontAwesomeIcon icon={faTimes} onClick={() => this.setState({restaurant: {}})} />
+            </div>
+            <Restaurant restaurant={restaurant} />
           </div>
         )}
        {showList && (
          <div className='list-container'>
            <div className='list'>
-             <div className='list__close' onClick={() => this.setState({showList: !showList, restaurant: {}})}>Cerrar</div>
+             <div className='element__close'>
+               <FontAwesomeIcon icon={faTimes} onClick={() => this.setState({showList: !showList, restaurant: {}})} />
+             </div>
              {this.list()}
            </div>
          </div>

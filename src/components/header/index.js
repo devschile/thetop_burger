@@ -1,17 +1,18 @@
 import React from 'react'
-
+import { NavLink } from "react-router-dom";
 import './header.scss'
 
-function Header ({ showState, onSelect, navbarOptions }) {
+function Header ({ navbarOptions }) {
   const options = Object.values(navbarOptions).map(option => {
     return (
-      <div
-        className={`header__option ${showState === option.key ? 'header__option--selected' : ''}`}
-        onClick={() => onSelect(option.key)}
+      <NavLink
+        to={`/${option.key}`}
+        className="header__option"
+        activeClassName="header__option--selected"
         key={option.key}
       >
         {option.label}
-      </div>
+      </NavLink>
     )
   })
 

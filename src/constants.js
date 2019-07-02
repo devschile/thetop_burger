@@ -3,8 +3,8 @@ export const STATES = {
     key: 'map',
     label: 'Mapa'
   },
-  list: {
-    key: 'list',
+  stores: {
+    key: 'stores',
     label: 'Lista'
   }
 }

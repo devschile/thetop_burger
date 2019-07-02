@@ -23,6 +23,8 @@
 .header__option {
   flex: 1 1;
   cursor: pointer;
+  color: #000;
+  text-decoration: none;
 }
 
 .header__option--selected {

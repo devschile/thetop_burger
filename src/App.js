@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import getDistance from 'geolib/es/getDistance'
 import { geolocated } from 'react-geolocated'
@@ -16,12 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      showState: STATES.map.key
-    }
-
     this.restaurantsWithDistance = this.restaurantsWithDistance.bind(this)
-    this.onSelect = this.onSelect.bind(this)
   }
 
   restaurantsWithDistance () {
@@ -41,33 +37,27 @@ class App extends Component {
       }))).flat()
   }
 
-  onSelect (state) {
-    this.setState({ showState: state })
-  }
-
   render () {
-    const { showState } = this.state
     const center = [-33.4372517, -70.6330319]
     const position = this.props.coords && [this.props.coords.latitude, this.props.coords.longitude]
     const restaurantsWithDistance = this.restaurantsWithDistance()
 
     return (
-      <div className="app">
-        <Header
-          showState={showState}
-          onSelect={this.onSelect}
-          navbarOptions={STATES}
-        />
-        {showState === STATES.map.key && (
-          <Map
-            center={center}
-            position={position}
-            zoom={12}
-            restaurants={restaurantsWithDistance}
-          />
-        )}
-        {showState === STATES.list.key && <RestaurantList restaurants={restaurantsWithDistance}/>}
-      </div>
+      <Router>
+        <div className='app'>
+          <Header navbarOptions={STATES} />
+          <Route exact path='' render={() => <Redirect to={`/${STATES.map.key}`} />} />
+          <Route path={`/${STATES.map.key}`} component={() =>
+            <Map
+              center={center}
+              position={position}
+              zoom={12}
+              restaurants={restaurantsWithDistance}
+            />
+          } />
+          <Route path={`/${STATES.stores.key}`} component={() => <RestaurantList restaurants={restaurantsWithDistance}/>} />
+        </div>
+      </Router>
     )
   }
 }

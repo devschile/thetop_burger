@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import Restaurant from './components/restaurant'
+import RestaurantList from './components/list'
 
 import { restaurants } from './restaurants.js'
 
@@ -50,18 +51,11 @@ class App extends Component {
       ))
   }
 
-  list () {
-    return this.restaurantsWithDistance()
-      .sort((a, b) => a.currentPosition.distance - b.currentPosition.distance)
-      .map(restaurant => (
-        <Restaurant restaurant={restaurant} />
-      ))
-  }
-
   render () {
     const { showList, restaurant } = this.state
     const center = [-33.4372517, -70.6330319]
     const position = this.props.coords && [this.props.coords.latitude, this.props.coords.longitude]
+    const restaurantsWithDistance = this.restaurantsWithDistance()
 
     return (
       <div className="app">
@@ -94,13 +88,7 @@ class App extends Component {
             <Restaurant restaurant={restaurant} />
           </div>
         )}
-       {showList && (
-         <div className='list-container'>
-           <div className='list'>
-             {this.list()}
-           </div>
-         </div>
-        )}
+        {showList && <RestaurantList restaurants={restaurantsWithDistance}/>}
       </div>
     )
   }

@@ -7,6 +7,7 @@ import { geolocated } from 'react-geolocated'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
+import Header from './components/header'
 import Restaurant from './components/restaurant'
 import RestaurantList from './components/list'
 
@@ -26,6 +27,7 @@ class App extends Component {
 
     this.restaurantsWithDistance = this.restaurantsWithDistance.bind(this)
     this.markers = this.markers.bind(this)
+    this.onSelect = this.onSelect.bind(this)
   }
 
   restaurantsWithDistance () {
@@ -52,6 +54,10 @@ class App extends Component {
       ))
   }
 
+  onSelect (state) {
+    this.setState({ showState: state })
+  }
+
   render () {
     const { showState, restaurant } = this.state
     const center = [-33.4372517, -70.6330319]
@@ -60,13 +66,11 @@ class App extends Component {
 
     return (
       <div className="app">
-        <div className='navbar'>
-          <h1 className='navbar__title'>TheTop - BurgerMap!</h1>
-          <div className='navbar__options'>
-            <div className={`navbar__option ${showState === STATES.map.key ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showState: STATES.map.key})}>Mapa</div>
-            <div className={`navbar__option ${showState === STATES.list.key ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showState: STATES.list.key})}>Lista</div>
-          </div>
-        </div>
+        <Header
+          showState={showState}
+          onSelect={this.onSelect}
+          navbarOptions={STATES}
+        />
         <div className='map-container'>
           <Map className='map-container__map' center={position || center} zoom={12}>
             <TileLayer

@@ -10,7 +10,8 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import Restaurant from './components/restaurant'
 import RestaurantList from './components/list'
 
-import { restaurants } from './restaurants.js'
+import { restaurants } from './restaurants'
+import { STATES } from './constants'
 
 import './App.css'
 
@@ -19,7 +20,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      showList: false,
+      showState: STATES.map.key,
       restaurant: {}
     }
 
@@ -52,7 +53,7 @@ class App extends Component {
   }
 
   render () {
-    const { showList, restaurant } = this.state
+    const { showState, restaurant } = this.state
     const center = [-33.4372517, -70.6330319]
     const position = this.props.coords && [this.props.coords.latitude, this.props.coords.longitude]
     const restaurantsWithDistance = this.restaurantsWithDistance()
@@ -62,8 +63,8 @@ class App extends Component {
         <div className='navbar'>
           <h1 className='navbar__title'>TheTop - BurgerMap!</h1>
           <div className='navbar__options'>
-            <div className={`navbar__option ${!showList ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showList: false})}>Mostrar Mapa</div>
-            <div className={`navbar__option ${showList ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showList: true})}>Mostrar Lista</div>
+            <div className={`navbar__option ${showState === STATES.map.key ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showState: STATES.map.key})}>Mapa</div>
+            <div className={`navbar__option ${showState === STATES.list.key ? 'navbar__option--selected' : ''}`} onClick={() => this.setState({showState: STATES.list.key})}>Lista</div>
           </div>
         </div>
         <div className='map-container'>
@@ -80,7 +81,7 @@ class App extends Component {
             )}
           </Map>
         </div>
-        {!showList && restaurant.name && (
+        {showState === STATES.map.key && restaurant.name && (
           <div className='element-container'>
             <div className='element__close'>
               <FontAwesomeIcon icon={faTimes} onClick={() => this.setState({restaurant: {}})} />
@@ -88,7 +89,7 @@ class App extends Component {
             <Restaurant restaurant={restaurant} />
           </div>
         )}
-        {showList && <RestaurantList restaurants={restaurantsWithDistance}/>}
+        {showState === STATES.list.key && <RestaurantList restaurants={restaurantsWithDistance}/>}
       </div>
     )
   }

@@ -1,0 +1,27 @@
+.restaurant {
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.restaurant__title {
+  font-weight: bold;
+}
+
+.restaurant__distance {
+  font-size: 0.95em;
+  color: #999;
+}
+
+.restaurant__icons {
+  padding-top: 16px;
+}
+
+.restaurant__icons a {
+  margin-right: 24px;
+}
+
+.restaurant-icon {
+  color: #bbb;
+  font-size: 24px;
+}

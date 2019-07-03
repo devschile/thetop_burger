@@ -1,0 +1,20 @@
+:root {
+  // General Purposes
+  --main-primary-color: #f91722;
+
+  // Fill
+  --main-fill-color: #fff;
+
+  // Border
+  --border-color: #eee;
+
+  // Inks
+  --default-ink-color: #444;
+  --sec-ink-color: #bbb;
+  --third-ink-color: #999;
+}
+
+body {
+  color: var(--default-ink-color);
+  font-family: 'Ubuntu', sans-serif;
+}

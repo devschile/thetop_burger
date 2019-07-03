@@ -12,12 +12,12 @@
 .element__close {
   text-align: right;
   padding: 10px;
-  color: #bbb;
+  color: var(--sec-ink-color);
 }
 
 .element-container {
   position: absolute;
-  background: white;
+  background: var(--main-fill-color);
   width: 100%;
   bottom: 0;
   left: 0;

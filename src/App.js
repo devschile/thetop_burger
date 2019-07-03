@@ -11,7 +11,8 @@ import RestaurantList from './components/list'
 import { restaurants } from './restaurants'
 import { STATES } from './constants'
 
-import './App.css'
+import './general.scss'
+import './app.scss'
 
 class App extends Component {
   constructor(props) {

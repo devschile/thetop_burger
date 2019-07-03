@@ -34,9 +34,14 @@ class App extends Component {
     }
 
     return restaurants.map(restaurant => (
-      restaurant.positions.map(position => {
-        return { ...restaurant, currentPosition: { ...position, distance: distance(position.lat, position.lng) } }
-      }))).flat()
+      restaurant.positions.map(position => ({
+        ...restaurant,
+        currentPosition: {
+          ...position,
+          distance: distance(position.lat, position.lng)
+        }
+      }))
+    )).flat()
   }
 
   render () {

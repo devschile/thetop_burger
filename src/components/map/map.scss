@@ -1,9 +1,3 @@
-.map-container {
-  width: 100vw;
-  height: calc(100vh - 90px);
-  margin-top: 90px;
-}
-
 .map-container__map {
   width: 100%;
   height: 100%;
@@ -19,7 +13,8 @@
   position: absolute;
   background: var(--main-fill-color);
   width: 100%;
-  bottom: 0;
+  bottom: 50px;
   left: 0;
   z-index: 1000;
+  box-shadow: 0 -10px 12px -3px rgba(0, 0, 0, 0.1), 0 -5px 5px -3px rgba(0, 0, 0, 0.04);
 }

@@ -7,6 +7,7 @@ import { geolocated } from 'react-geolocated'
 import Header from './components/header'
 import Map from './components/map'
 import RestaurantList from './components/list'
+import Footer from './components/footer'
 
 import { restaurants } from './restaurants'
 import { STATES } from './constants'
@@ -47,16 +48,20 @@ class App extends Component {
       <Router>
         <div className='app'>
           <Header navbarOptions={STATES} />
-          <Route exact path='' render={() => <Redirect to={`/${STATES.map.key}`} />} />
-          <Route path={`/${STATES.map.key}`} component={() =>
-            <Map
-              center={center}
-              position={position}
-              zoom={12}
-              restaurants={restaurantsWithDistance}
+          <div className='app__container'>
+            <Route exact path='' render={() => <Redirect to={`/${STATES.map.key}`} />} />
+            <Route path={`/${STATES.map.key}`} component={() =>
+              <Map
+                center={center}
+                position={position}
+                zoom={12}
+                restaurants={restaurantsWithDistance}
+              />
+            }
             />
-          } />
-          <Route path={`/${STATES.stores.key}`} component={() => <RestaurantList restaurants={restaurantsWithDistance}/>} />
+            <Route path={`/${STATES.stores.key}`} component={() => <RestaurantList restaurants={restaurantsWithDistance}/>} />
+          </div>
+          <Footer navbarOptions={STATES} />
         </div>
       </Router>
     )

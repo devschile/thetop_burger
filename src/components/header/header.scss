@@ -1,35 +1,12 @@
 .header {
-  position: absolute;
-  height: 90px;
-  top: 0;
-  left: 0;
   background: var(--main-fill-color);
-  display: block;
-  width: 100%;
   z-index: 1001;
   text-align: center;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
+  box-shadow: 0 10px 12px -3px rgba(0, 0, 0, .1), 0 5px 5px -3px rgba(0, 0, 0, .04);
+  padding: 10px 0;
 
   &__title {
     height: 40px;
-    margin: 10px 20px;
-  }
-
-  &__options {
-    display: flex;
-  }
-
-  &__option {
-    flex: 1 1;
-    cursor: pointer;
-    color: var(--default-ink-color);
-    text-decoration: none;
-
-    &--selected {
-      border-bottom: 3px solid var(--main-primary-color);
-      padding-bottom: 10px;
-      color: var(--main-primary-color);
-      font-weight: bold;
-    }
+    margin: 0;
   }
 }

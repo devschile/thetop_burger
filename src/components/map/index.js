@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -16,7 +16,7 @@ function MapComponent ({ center, position, zoom, restaurants }) {
         ))
 
   return (
-    <div className='map-container'>
+    <Fragment>
       <Map className='map-container__map' center={position || center} zoom={12}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -37,7 +37,7 @@ function MapComponent ({ center, position, zoom, restaurants }) {
           <Restaurant restaurant={restaurant} />
         </div>
       )}
-    </div>
+    </Fragment>
   )
 }
 

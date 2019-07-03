@@ -1,0 +1,28 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 50px;
+  box-shadow: 0 -10px 12px -3px rgba(0, 0, 0, 0.1), 0 -5px 5px -3px rgba(0, 0, 0, 0.04);
+  
+  &__options {
+    display: flex;
+    height: 100%;
+  }
+
+  &__option {
+    flex: 1 1;
+    cursor: pointer;
+    color: var(--default-ink-color);
+    text-decoration: none;
+    padding-top: 10px;
+    -webkit-tap-highlight-color: transparent;
+
+    &--selected {
+      border-top: 3px solid var(--main-primary-color);
+      color: var(--main-primary-color);
+      font-weight: bold;
+    }
+  }
+}

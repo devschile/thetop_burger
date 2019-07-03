@@ -1,0 +1,6 @@
+.app {
+  &__container {
+    height: calc(100vh - 110px);
+    overflow: scroll;
+  }
+}

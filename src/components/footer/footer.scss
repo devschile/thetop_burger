@@ -5,7 +5,9 @@
   text-align: center;
   height: 50px;
   box-shadow: 0 -10px 12px -3px rgba(0, 0, 0, 0.1), 0 -5px 5px -3px rgba(0, 0, 0, 0.04);
-  
+  background: var(--main-fill-color);
+  z-index: 2147483647;
+
   &__options {
     display: flex;
     height: 100%;
